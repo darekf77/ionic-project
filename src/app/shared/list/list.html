@@ -1,0 +1,51 @@
+<div class="gallery-list-filters">
+    <div class="col list">
+        <label class="item item-input item-select">
+    <div class="input-label">
+        Lightsaber
+        </div>
+        <select ng-model="filter" 
+            ng-change="filterChanged()"
+            ng-disabled="totalItems == 0">
+            <option value="0">Obrazy</option>
+            <option value="1">Dokumenty</option>
+            <option value="2" selected>Wyszystkie pliki</option>
+        </select>
+    </label>
+    </div>    
+</div>
+
+<div class="gallery-list-files" >
+    <div class="col flex-container" 
+        >
+        <gallery-list-item 
+            ng-repeat="file in files"
+            item-url="{{file.url}}"
+        >
+        </gallery-list-item>
+    </div>
+</div>
+
+<div class="row gallery-list-pagination">
+    <div class="col" >
+        <div>
+            <uib-pagination 
+            total-items="totalItems" 
+            ng-model="currentPage"
+            max-size="maxSize" 
+            class="pagination-sm" 
+            boundary-link-numbers="true"
+            ng-change="pageChanged()"
+            rotate="false" 
+            previous-text="Poprzednie" next-text="Następne"
+            ></uib-pagination>
+        </div>
+        <div >
+            Brak plików
+            <br>
+        </div>
+        <br>
+        <pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
+    </div>
+    
+</div>

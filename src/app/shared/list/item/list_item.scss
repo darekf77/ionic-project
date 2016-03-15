@@ -1,0 +1,18 @@
+
+.flex-item {
+   padding: 5px;
+  min-width: 100px;
+  height: 150px;
+  margin-top: 10px;
+  flex-grow: 1;
+  line-height: 150px;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+  img {
+      height: 100%;
+      width: auto;
+      display: inline-block;
+  }
+}

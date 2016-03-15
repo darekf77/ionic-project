@@ -1,5 +1,11 @@
 
-angular.module('starter', [ 'ionic' ])
+angular.module('starter', 
+[ 
+    'ionic'
+    'ngResource'
+    'ui.bootstrap'
+    'ui.bootstrap.tpls'
+])
 .run ($ionicPlatform) ->
   $ionicPlatform.ready ->
     if window.cordova and window.cordova.plugins.Keyboard

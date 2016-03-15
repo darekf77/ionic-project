@@ -1,0 +1,14 @@
+<ion-pane>
+<ion-header-bar class="bar-stable">
+<h1 class="title">Galeria</h1>
+</ion-header-bar>
+<ion-content class="has-header">
+    {{dupa}}
+    <gallery-list 
+        ng-model="model"
+        event-handler="eventHandler"
+        total-items="totalItems"
+        >        
+    </gallery-list>
+</ion-content>
+</ion-pane>

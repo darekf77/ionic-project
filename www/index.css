@@ -9715,3 +9715,36 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around; }
+
+.gallery-list-pagination {
+  text-align: center; }
+  .gallery-list-pagination .pagination-sm {
+    display: inline-block; }
+
+.flex-item {
+  padding: 5px;
+  min-width: 100px;
+  height: 150px;
+  margin-top: 10px;
+  flex-grow: 1;
+  line-height: 150px;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center; }
+  .flex-item img {
+    height: 100%;
+    width: auto;
+    display: inline-block; }
