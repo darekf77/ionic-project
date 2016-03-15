@@ -15,13 +15,14 @@ var out_dir = './www';
 var paths = {
   sass: [ dev_dir+'/app/**/*.scss'],
   js: [
-      dev_dir+'/app/app.module.coffee',
+      dev_dir+'/app/app.coffee',
       dev_dir+'/app/**/*.coffee'
-    ]
+    ],
+  html: [ dev_dir+'/**/*.html']
 };
 
 gulp.task('default', [
-    'watch','sass','coffee'
+    'watch','sass','coffee','html'
 ]);
 
 gulp.task('sass', function(done) {
@@ -46,11 +47,17 @@ gulp.task('coffee', function () {
     .pipe(gulp.dest(out_dir));
 });
 
+gulp.task('html', function() {
+    // console.log(paths.html);
+    gulp.src(paths.html)
+        .pipe(gulp.dest(out_dir))
+});
 
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.js, ['coffee']);
+  gulp.watch(paths.html, ['html']);
 });
 
 
