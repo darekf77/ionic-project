@@ -1,0 +1,7 @@
+{
+  "name": "GalleryIonic",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "default"
+  ]
+}
