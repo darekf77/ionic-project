@@ -21,11 +21,6 @@ angular.module('starter')
             defer = $q.defer();
             galleryFactory.get id:counter , (item) =>            
                 item.$promise.then (data) =>
-                    # if angular.isDefined $scope.model and
-                    # angular.isDefined $scope.model.data and
-                    # $scope.model.data.length + data.data.length > data._meta.all then do ()=>
-                    #     defer.reject()
-                    # else do () =>
                     $scope.totalItems = data._meta.all
                     $scope.model = data
                     defer.resolve();

@@ -4,7 +4,7 @@
     <div class="input-label">
         Filtr plików
         </div>
-        <select ng-model="filter.item.typeItems" 
+        <select ng-model="filter.item.typeItems"  ng-show="totalItems > 0"
             ng-change="filterChanged()"
             ng-disabled="totalItems == 0">
             <option value="0">Obrazy</option>
@@ -16,7 +16,7 @@
 </div>
 
 <div class="gallery-list-files" >
-    <div class="col flex-container" 
+    <div class="col flex-container" ng-show="totalItems > 0"
         >
         <gallery-list-item 
             ng-repeat="file in files"
@@ -32,7 +32,7 @@
 
 <div class="row gallery-list-pagination">
     <div class="col" >
-        <div>
+        <div ng-show="totalItems > 0">
             <uib-pagination 
             total-items="totalItems" 
             ng-model="currentPage"
@@ -44,12 +44,10 @@
             previous-text="Poprzednie" next-text="Następne"
             ></uib-pagination>
         </div>
-        <div >
+        <div ng-show="totalItems === 0">
             Brak plików
             <br>
         </div>
-        <br>
-        <pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
     </div>
     
 </div>
