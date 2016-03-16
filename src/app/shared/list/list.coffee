@@ -115,9 +115,10 @@ angular.module('starter')
                   
         
         $scope.filterChanged = () ->
+            $scope.setPage(1)
             $scope.filter.item.type = parseInt($scope.filter.item.typeItems)
             if !isFilteringMode() then $scope.maxSize = defaultMaxSize
             else $scope.maxSize = 0 
-            prepareDispalyFiles()
+            $scope.pageChanged()
             
             

@@ -224,13 +224,14 @@ angular.module('starter').directive('galleryList', function($timeout, $filter) {
         return prepareDispalyFiles();
       });
       return $scope.filterChanged = function() {
+        $scope.setPage(1);
         $scope.filter.item.type = parseInt($scope.filter.item.typeItems);
         if (!isFilteringMode()) {
           $scope.maxSize = defaultMaxSize;
         } else {
           $scope.maxSize = 0;
         }
-        return prepareDispalyFiles();
+        return $scope.pageChanged();
       };
     }
   };
