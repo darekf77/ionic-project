@@ -7,8 +7,4 @@ angular.module('starter')
             typeState = true
             if filter.type isnt 2 and filter.type isnt v.type then typeState = false
             if typeState then output.push v
-            
-        # console.log 'before',output
-        if filter.type isnt 2 then filter.sizeChanged(output)
-        # console.log 'after',output
         return output

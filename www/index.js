@@ -50,7 +50,6 @@ angular.module('starter').config(function($stateProvider, $urlRouterProvider) {
   })(this);
   getElements(counterJSONid++);
   return $scope.eventHandler = {
-    pageChanged: function(data) {},
     getMoreData: (function(_this) {
       return function() {
         return getElements(counterJSONid++);
@@ -68,9 +67,7 @@ angular.module('starter').factory('galleryFactory', function($resource) {
   });
 });
 
-var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-angular.module('starter').directive('galleryList', function($timeout) {
+angular.module('starter').directive('galleryList', function($timeout, $filter) {
   return {
     templateUrl: 'app/shared/list/list.html',
     restrict: 'E',
@@ -80,22 +77,49 @@ angular.module('starter').directive('galleryList', function($timeout) {
       totalItems: "="
     },
     link: function($scope, elem, attr, model) {
-      var allFiles, bottomIndex, defaultMaxSize, downloadMoreData, elemenstOnPage, fitDataAfterFiltering, prepareArray, prepareDispalyFiles, topIndex;
+      var allFiles, bottomIndex, contains, countFilesWithType, defaultMaxSize, downloadMoreData, elemenstOnPage, emptyFn, fitExistingData, isFilteringMode, prepareArray, prepareDispalyFiles, tmpTotalFiltering, tmpTotalItems, topIndex;
+      $scope.files = [];
+      allFiles = [];
+      tmpTotalItems = 0;
       elemenstOnPage = 10;
       $scope.currentPage = 1;
       defaultMaxSize = 3;
       $scope.maxSize = defaultMaxSize;
       bottomIndex = 0;
       topIndex = bottomIndex + elemenstOnPage;
-      fitDataAfterFiltering = (function(_this) {
+      $scope.filter = {
+        startIndex: 0,
+        item: {
+          type: 2,
+          typeItems: '2',
+          thread: 0
+        }
+      };
+      isFilteringMode = (function(_this) {
+        return function() {
+          return $scope.filter.item.type !== 2;
+        };
+      })(this);
+      contains = (function(_this) {
+        return function(obj, destArray) {
+          var tmp;
+          tmp = false;
+          angular.forEach(destArray, function(v, k) {
+            if (v.id === obj.id) {
+              return tmp = true;
+            }
+          });
+          return tmp;
+        };
+      })(this);
+      fitExistingData = (function(_this) {
         return function(arrFiltr) {
           var counter, filtrArrDiff;
           filtrArrDiff = elemenstOnPage - arrFiltr.length;
-          console.log('filtrArrDiff', filtrArrDiff);
           counter = 0;
-          angular.forEach(allFiles, function(v, k) {
+          return angular.forEach(allFiles, function(v, k) {
             var condition;
-            condition = indexOf.call(arrFiltr, v) < 0 && filtrArrDiff > 0 && ++counter > bottomIndex && v.type === $scope.filter.item.type;
+            condition = !contains(v, arrFiltr) && filtrArrDiff > 0 && ++counter > topIndex && v.type === $scope.filter.item.type;
             if (condition) {
               return (function() {
                 arrFiltr.push(v);
@@ -103,105 +127,89 @@ angular.module('starter').directive('galleryList', function($timeout) {
               })();
             }
           });
-          if (filtrArrDiff > 0 && topIndex < allFiles.length) {
-            return downloadMoreData();
-          }
         };
       })(this);
-      $scope.filter = {
-        startIndex: 0,
-        item: {
-          type: 2,
-          typeItems: '2',
-          thread: 0,
-          sizeChanged: (function(_this) {
-            return function(filteredArray) {
-              return fitDataAfterFiltering(filteredArray);
-            };
-          })(this)
-        }
-      };
-      console.info($scope.filter);
-      $scope.files = [];
-      allFiles = [];
       $scope.setPage = function(pageNo) {
-        console.info(pageNo);
         return $scope.currentPage = pageNo;
       };
-      prepareArray = (function(_this) {
-        return function(destArray) {
+      countFilesWithType = (function(_this) {
+        return function(type) {
           var counter;
           counter = 0;
-          return angular.forEach(allFiles, function(v, k) {
-            if (counter >= bottomIndex && counter < topIndex) {
+          angular.forEach(allFiles, function(v, k) {
+            if (v.type === type) {
+              return ++counter;
+            }
+          });
+          return counter;
+        };
+      })(this);
+      tmpTotalFiltering = false;
+      prepareArray = (function(_this) {
+        return function(destArray) {
+          var beforeArr, counter, t;
+          beforeArr = angular.copy(destArray);
+          destArray.length = 0;
+          t = allFiles;
+          if (isFilteringMode()) {
+            t = $filter('galleryFilter')(allFiles, $scope.filter.item);
+          }
+          counter = 0;
+          angular.forEach(t, function(v, k) {
+            if (counter >= bottomIndex && counter < topIndex && !contains(v, destArray)) {
               destArray.push(v);
             }
             return ++counter;
           });
+          if (isFilteringMode() && destArray.length === 0) {
+            return (function() {
+              var newTotalItems;
+              angular.forEach(beforeArr, function(v, k) {
+                return destArray.push(v);
+              });
+              newTotalItems = countFilesWithType($scope.filter.item.type);
+              return $timeout(function() {
+                tmpTotalFiltering = true;
+                return $scope.totalItems = newTotalItems;
+              }, 0);
+            })();
+          } else if (destArray.length !== 0) {
+            return $timeout(function() {
+              if (tmpTotalFiltering) {
+                return tmpTotalFiltering = false;
+              } else {
+                return $scope.totalItems = tmpTotalItems;
+              }
+            }, 0);
+          }
         };
+      })(this);
+      emptyFn = (function(_this) {
+        return function() {};
       })(this);
       downloadMoreData = (function(_this) {
         return function() {
           var promise;
           promise = $scope.eventHandler.getMoreData();
-          return promise.then(function() {
-            return console.info('New json is ok');
-          }, function() {
-            console.info('New json is bad');
+          return promise.then(emptyFn, function() {
             return prepareArray($scope.files);
           });
         };
       })(this);
       prepareDispalyFiles = (function(_this) {
         return function() {
-          var counter, startAfterFiltering, tmp;
-          $scope.files.length = 0;
           bottomIndex = $scope.filter.startIndex;
-          counter = 0;
-          startAfterFiltering = 0;
-          if ($scope.filter.item.type !== 2 && $scope.currentPage > 1) {
-            (function() {
-              angular.forEach(allFiles, function(v, k) {
-                if (counter === ($scope.currentPage - 1) * elemenstOnPage) {
-                  return;
-                }
-                if (v.type === $scope.filter.item.type) {
-                  ++counter;
-                }
-                return ++startAfterFiltering;
-              });
-              return bottomIndex = startAfterFiltering;
-            })();
-          }
           topIndex = bottomIndex + elemenstOnPage;
-          tmp = [];
-          prepareArray(tmp);
-          if ($scope.filter.item.type !== 2 && $scope.currentPage > 1 && tmp.length < elemenstOnPage) {
-            return (function() {
-              console.log("tmp.length ", tmp.length);
-              fitDataAfterFiltering(tmp);
-              console.log("ALE PIZDA", tmp);
-              return $timeout(function() {
-                console.log("ALE PIZDA", tmp);
-                return $scope.files = tmp;
-              }, 0);
-            })();
-          } else {
-            return (function() {
-              if (topIndex >= allFiles.length) {
-                downloadMoreData();
-                return;
-              }
-              return prepareArray($scope.files);
-            })();
+          prepareArray($scope.files);
+          if ($scope.files !== elemenstOnPage && isFilteringMode() && allFiles.length < $scope.totalItems) {
+            fitExistingData($scope.files);
+          }
+          if (($scope.files !== elemenstOnPage && isFilteringMode() && allFiles.length < $scope.totalItems) || (!isFilteringMode() && topIndex >= allFiles.length)) {
+            return downloadMoreData();
           }
         };
       })(this);
       $scope.pageChanged = function() {
-        $scope.eventHandler.pageChanged({
-          pageNum: $scope.currentPage,
-          totalItems: $scope.totalItems
-        });
         $scope.filter.startIndex = ($scope.currentPage - 1) * elemenstOnPage;
         return prepareDispalyFiles();
       };
@@ -212,16 +220,17 @@ angular.module('starter').directive('galleryList', function($timeout) {
         angular.forEach(newValue, function(v, k) {
           return allFiles.push(v);
         });
+        tmpTotalItems = $scope.totalItems;
         return prepareDispalyFiles();
       });
       return $scope.filterChanged = function() {
         $scope.filter.item.type = parseInt($scope.filter.item.typeItems);
-        if ($scope.filter.item.type === 2) {
+        if (!isFilteringMode()) {
           $scope.maxSize = defaultMaxSize;
         } else {
           $scope.maxSize = 0;
         }
-        return console.log($scope.filter.item.type);
+        return prepareDispalyFiles();
       };
     }
   };
@@ -242,9 +251,6 @@ angular.module('starter').filter('galleryFilter', (function(_this) {
           return output.push(v);
         }
       });
-      if (filter.type !== 2) {
-        filter.sizeChanged(output);
-      }
       return output;
     };
   };

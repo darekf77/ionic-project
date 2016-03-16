@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.directive 'galleryList', ($timeout) ->
+.directive 'galleryList', ($timeout,$filter) ->
     templateUrl:'app/shared/list/list.html'
     restrict:'E'
     scope:
@@ -8,6 +8,10 @@ angular.module('starter')
         eventHandler:"="
         totalItems:"="
     link: ($scope,elem,attr,model) ->
+        $scope.files = [];
+        allFiles = []
+    
+        tmpTotalItems = 0
         elemenstOnPage = 10
         $scope.currentPage = 1        
         defaultMaxSize  = 3
@@ -16,110 +20,104 @@ angular.module('starter')
         bottomIndex = 0
         topIndex = bottomIndex + elemenstOnPage
         
-        fitDataAfterFiltering = (arrFiltr)=>
-            filtrArrDiff = elemenstOnPage - arrFiltr.length
-            console.log 'filtrArrDiff',filtrArrDiff            
-            counter = 0
-            angular.forEach allFiles, (v,k) =>
-                # if bottom > 0 then debugger
-                condition = v not in arrFiltr and 
-                filtrArrDiff > 0 and 
-                ++counter > bottomIndex and
-                v.type is $scope.filter.item.type                
-                # debugger
-                # if condition then debugger
-                # if v.id is 1 and bottom > 0 then debugger
-                if condition then do () =>
-                    arrFiltr.push v                    
-                    --filtrArrDiff
-            if filtrArrDiff > 0 and topIndex < allFiles.length then downloadMoreData()
-        
         $scope.filter = 
             startIndex:0
             item:
                 type:2
                 typeItems: '2'
                 thread: 0
-                sizeChanged: (filteredArray) => 
-                    fitDataAfterFiltering(filteredArray)
-                    
-        console.info $scope.filter
         
-        $scope.files = [];
-        allFiles = []
+        isFilteringMode = ()=> $scope.filter.item.type isnt 2
         
-        $scope.setPage = (pageNo) ->
-            console.info pageNo
-            $scope.currentPage = pageNo;
+        contains = (obj,destArray) =>
+            tmp = false
+            angular.forEach destArray, (v,k) =>
+                if v.id is obj.id then tmp = true
+            return tmp
         
-        prepareArray = (destArray) =>
+        fitExistingData = (arrFiltr)=>
+            filtrArrDiff = elemenstOnPage - arrFiltr.length 
             counter = 0
             angular.forEach allFiles, (v,k) =>
-                if counter >= bottomIndex and counter  < topIndex
+                condition =  !contains(v,arrFiltr) and
+                filtrArrDiff > 0 and 
+                ++counter > topIndex and
+                v.type is $scope.filter.item.type
+                if condition then do () =>
+                    arrFiltr.push v                    
+                    --filtrArrDiff
+                
+        $scope.setPage = (pageNo) ->
+            $scope.currentPage = pageNo;
+            
+        countFilesWithType = (type) =>
+            counter = 0
+            angular.forEach allFiles, (v,k) ->
+                if v.type == type then ++counter
+            counter
+        
+        tmpTotalFiltering = false
+        prepareArray = (destArray) =>
+            beforeArr = angular.copy destArray
+            destArray.length = 0
+            t = allFiles
+            if isFilteringMode() then t =  
+                $filter('galleryFilter')(allFiles,$scope.filter.item)
+            counter = 0
+            angular.forEach t, (v,k) =>
+                if counter >= bottomIndex and counter  < topIndex and !contains(v,destArray)
                     destArray.push v 
                 ++counter
+            if isFilteringMode() and destArray.length is 0 then do ()=>
+                angular.forEach beforeArr, (v,k)=>
+                    destArray.push v
+                newTotalItems = countFilesWithType($scope.filter.item.type)
+                $timeout(-> 
+                    tmpTotalFiltering = true
+                    $scope.totalItems = newTotalItems
+                ,0)
+            else if destArray.length isnt 0
+                $timeout(->          
+                    if tmpTotalFiltering then tmpTotalFiltering = false          
+                    else $scope.totalItems = tmpTotalItems
+                ,0)
+                
         
+        emptyFn = =>
         downloadMoreData = () =>
             promise = $scope.eventHandler.getMoreData()
-            promise.then () =>
-                console.info 'New json is ok'
-            ,() =>
-                console.info 'New json is bad'
+            promise.then emptyFn,() =>
                 prepareArray($scope.files)
         
-        prepareDispalyFiles = () =>
-            $scope.files.length = 0;            
+        prepareDispalyFiles = () =>   
             bottomIndex = $scope.filter.startIndex
-            counter = 0
-            startAfterFiltering = 0
-            if $scope.filter.item.type isnt 2 and $scope.currentPage > 1 then do () =>
-                angular.forEach allFiles, (v,k) =>
-                    if counter is ($scope.currentPage-1)*elemenstOnPage then return 
-                    if v.type is $scope.filter.item.type then ++counter
-                    ++startAfterFiltering
-                bottomIndex =startAfterFiltering                
             topIndex = bottomIndex + elemenstOnPage
-            
-            tmp = []
-            prepareArray(tmp)            
-            if $scope.filter.item.type isnt 2 and 
-                $scope.currentPage > 1 and 
-                tmp.length < elemenstOnPage then do () =>
-                    console.log "tmp.length ",tmp.length    
-                    # debugger 
-                    fitDataAfterFiltering(tmp)            
-                    console.log "ALE PIZDA",tmp                      
-                    $timeout( ()=>            
-                        console.log "ALE PIZDA",tmp            
-                        $scope.files = tmp
-                    ,0)
-                        
-                    # petla i zwiększać/ szukać
-            else do ()=>
-                if topIndex >= allFiles.length
-                    downloadMoreData()
-                    return            
-                prepareArray($scope.files)
-            
+            prepareArray($scope.files)
+            if $scope.files isnt elemenstOnPage and 
+                isFilteringMode() and
+                allFiles.length < $scope.totalItems then fitExistingData($scope.files)
+            if ($scope.files isnt elemenstOnPage and 
+                isFilteringMode() and
+                allFiles.length < $scope.totalItems) or 
+            (!isFilteringMode() and topIndex >= allFiles.length) then downloadMoreData()
         
         $scope.pageChanged = ()  ->
-            $scope.eventHandler.pageChanged
-                pageNum : $scope.currentPage
-                totalItems : $scope.totalItems
             $scope.filter.startIndex = ($scope.currentPage-1)*elemenstOnPage
-            prepareDispalyFiles()
-               
+            prepareDispalyFiles()               
        
         $scope.$watchCollection 'ngModel.data', (newValue,oldValue) ->
             if !newValue 
                 return
             angular.forEach newValue, (v,k)  ->  
                 allFiles.push v
+            tmpTotalItems = $scope.totalItems
             prepareDispalyFiles()
                   
         
         $scope.filterChanged = () ->
             $scope.filter.item.type = parseInt($scope.filter.item.typeItems)
-            if $scope.filter.item.type is 2 then $scope.maxSize = defaultMaxSize
-            else $scope.maxSize = 0
-            console.log $scope.filter.item.type
+            if !isFilteringMode() then $scope.maxSize = defaultMaxSize
+            else $scope.maxSize = 0 
+            prepareDispalyFiles()
+            
+            

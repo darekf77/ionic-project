@@ -9753,7 +9753,8 @@ a.button {
   .flex-item strong {
     position: absolute;
     color: red;
-    margin-left: 30px; }
+    margin-top: 40px;
+    font-size: 15px; }
   .flex-item img {
     height: 100%;
     width: auto;

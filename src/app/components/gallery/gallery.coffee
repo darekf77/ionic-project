@@ -38,8 +38,6 @@ angular.module('starter')
         getElements(counterJSONid++)
     
         $scope.eventHandler = 
-            pageChanged: (data) ->
-                # console.log 'eventHandler',data 
             getMoreData: () =>
                 getElements(counterJSONid++)
                 
