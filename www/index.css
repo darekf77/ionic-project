@@ -9749,7 +9749,8 @@ a.button {
   text-align: center; }
   .flex-item span {
     position: absolute;
-    color: greenyellow; }
+    color: greenyellow;
+    font-size: 25px; }
   .flex-item strong {
     position: absolute;
     color: red;

@@ -10,63 +10,6 @@ angular.module('starter', ['ionic', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.
   });
 });
 
-angular.module('starter').config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider.state('gallery', {
-    url: '/gallery',
-    templateUrl: 'app/components/gallery/gallery.html',
-    controller: 'GalleryController'
-  });
-  return $urlRouterProvider.otherwise('/gallery');
-}).controller('GalleryController', function($scope, $q, galleryFactory) {
-  var counterJSONid, getElements, prepareElement;
-  prepareElement = function(item) {
-    return angular.forEach(item.data, function(v, k) {
-      var randomKittyId;
-      randomKittyId = Math.floor(Math.random() * 10) + 1;
-      return v.url = v.url + "?image=" + randomKittyId;
-    });
-  };
-  $scope.totalItems = 0;
-  counterJSONid = 1;
-  getElements = (function(_this) {
-    return function(counter) {
-      var defer;
-      defer = $q.defer();
-      galleryFactory.get({
-        id: counter
-      }, function(item) {
-        return item.$promise.then(function(data) {
-          $scope.totalItems = data._meta.all;
-          $scope.model = data;
-          return defer.resolve();
-        }, function() {
-          return defer.reject();
-        });
-      }, function() {
-        return defer.reject();
-      });
-      return defer.promise;
-    };
-  })(this);
-  getElements(counterJSONid++);
-  return $scope.eventHandler = {
-    getMoreData: (function(_this) {
-      return function() {
-        return getElements(counterJSONid++);
-      };
-    })(this)
-  };
-});
-
-angular.module('starter').factory('galleryFactory', function($resource) {
-  return $resource("page-:id" + ".json", {
-    id: '@id'
-  }, 'get', {
-    method: 'GET',
-    isArray: false
-  });
-});
-
 angular.module('starter').directive('galleryList', function($timeout, $filter) {
   return {
     templateUrl: 'app/shared/list/list.html',
@@ -256,6 +199,56 @@ angular.module('starter').filter('galleryFilter', (function(_this) {
     };
   };
 })(this));
+
+angular.module('starter').config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('gallery', {
+    url: '/gallery',
+    templateUrl: 'app/components/gallery/gallery.html',
+    controller: 'GalleryController'
+  });
+  return $urlRouterProvider.otherwise('/gallery');
+}).controller('GalleryController', function($scope, $q, galleryFactory) {
+  var counterJSONid, getElements;
+  $scope.totalItems = 0;
+  counterJSONid = 1;
+  getElements = (function(_this) {
+    return function(counter) {
+      var defer;
+      defer = $q.defer();
+      galleryFactory.get({
+        id: counter
+      }, function(item) {
+        return item.$promise.then(function(data) {
+          $scope.totalItems = data._meta.all;
+          $scope.model = data;
+          return defer.resolve();
+        }, function() {
+          return defer.reject();
+        });
+      }, function() {
+        return defer.reject();
+      });
+      return defer.promise;
+    };
+  })(this);
+  getElements(counterJSONid++);
+  return $scope.eventHandler = {
+    getMoreData: (function(_this) {
+      return function() {
+        return getElements(counterJSONid++);
+      };
+    })(this)
+  };
+});
+
+angular.module('starter').factory('galleryFactory', function($resource) {
+  return $resource("page-:id" + ".json", {
+    id: '@id'
+  }, 'get', {
+    method: 'GET',
+    isArray: false
+  });
+});
 
 angular.module('starter').directive('galleryListItem', function($timeout) {
   return {

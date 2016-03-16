@@ -8,14 +8,9 @@ angular.module('starter')
     $urlRouterProvider.otherwise '/gallery'
         
 .controller 'GalleryController', 
-    ($scope,$q,galleryFactory) ->
-        prepareElement = (item) ->
-            angular.forEach item.data, (v,k)->
-                randomKittyId = Math.floor(Math.random() * 10) + 1  
-                v.url = "#{v.url}?image=#{randomKittyId}" 
-        
-        $scope.totalItems = 0
-        
+    ($scope,$q,galleryFactory) ->        
+    
+        $scope.totalItems = 0        
         counterJSONid =1         
         getElements = (counter) =>
             defer = $q.defer();
