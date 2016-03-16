@@ -22,10 +22,17 @@ var paths = {
     ],
   html: [ dev_dir+'/**/*.html'],
   json: [ dev_dir+'/assets/json/**/*.json'],
+  images: [
+        dev_dir+'/**/*.png',
+        dev_dir+'/**/*.jpg',
+        dev_dir+'/**/*.gif',
+        dev_dir+'/**/*.svg'
+    ],
+  
 };
 
 gulp.task('default', [
-    'watch','sass','coffee','html','json'
+    'watch','sass','coffee','html','json','images'
 ]);
 
 gulp.task('sass', function(done) {
@@ -58,6 +65,12 @@ gulp.task('json', function() {
     gulp.src(paths.json)
         .pipe(gulp.dest(out_dir))
 });
+
+gulp.task('images', function() {
+    gulp.src(paths.images)
+        .pipe(gulp.dest(out_dir))
+});
+
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);

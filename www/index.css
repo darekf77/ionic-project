@@ -9733,6 +9733,9 @@ a.button {
   .gallery-list-pagination .pagination-sm {
     display: inline-block; }
 
+.shine {
+  opacity: 0.5 !important; }
+
 .flex-item {
   padding: 5px;
   min-width: 100px;
@@ -9744,6 +9747,13 @@ a.button {
   font-weight: bold;
   font-size: 3em;
   text-align: center; }
+  .flex-item span {
+    position: absolute;
+    color: greenyellow; }
+  .flex-item strong {
+    position: absolute;
+    color: red;
+    margin-left: 30px; }
   .flex-item img {
     height: 100%;
     width: auto;

@@ -2,14 +2,14 @@
     <div class="col list">
         <label class="item item-input item-select">
     <div class="input-label">
-        Lightsaber
+        Filtr plików
         </div>
-        <select ng-model="filter" 
+        <select ng-model="filter.item.typeItems" 
             ng-change="filterChanged()"
             ng-disabled="totalItems == 0">
             <option value="0">Obrazy</option>
             <option value="1">Dokumenty</option>
-            <option value="2" selected>Wyszystkie pliki</option>
+            <option value="2">Wyszystkie pliki</option>
         </select>
     </label>
     </div>    
@@ -19,8 +19,12 @@
     <div class="col flex-container" 
         >
         <gallery-list-item 
-            ng-repeat="file in files"
+            ng-repeat="file in files | galleryFilter:filter.item"
             item-url="{{file.url}}"
+            item-type="file.type"
+            item-id="{{file.id}}"
+            item-thread="file.thread"
+            filter="filter"
         >
         </gallery-list-item>
     </div>

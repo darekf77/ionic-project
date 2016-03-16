@@ -15,17 +15,22 @@ angular.module('starter')
                 v.url = "#{v.url}?image=#{randomKittyId}" 
         
         $scope.totalItems = 0
-        tmpItem = []
         
         counterJSONid =1         
         getElements = (counter) =>
             defer = $q.defer();
             galleryFactory.get id:counter , (item) =>            
-                item.$promise.then (data) =>                                       
+                item.$promise.then (data) =>
+                    # if angular.isDefined $scope.model and
+                    # angular.isDefined $scope.model.data and
+                    # $scope.model.data.length + data.data.length > data._meta.all then do ()=>
+                    #     defer.reject()
+                    # else do () =>
                     $scope.totalItems = data._meta.all
-                    if tmpItem.length <= $scope.totalItems
-                        $scope.model = data
-                    defer.resolve();      
+                    $scope.model = data
+                    defer.resolve();
+                , () =>
+                    defer.reject()
             , () =>
                 defer.reject()
             defer.promise

@@ -1,3 +1,10 @@
-<div class="flex-item" ng-mouseover="hover()" >    
-    <img class="img-responsive" ng-src="{{url}}"> 
+<div class="flex-item {{thread}}" ng-mouseover="hover()" ng-mouseleave="leave()" >    
+    <span>{{id}}</span>
+    <strong>{{thread}}</strong>
+    <img ng-show="type == 0" class="img-responsive" ng-src="{{url}}">
+    <div class="img-responsive " ng-show="type == 1">
+        <img  class="gallery-item-file-data" style="width: 50px"
+        src="assets/img/file.png">    
+    </div>
+    
 </div>
