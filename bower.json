@@ -8,6 +8,8 @@
     "angular-resource": "^1.5.0",
     "angular-bootstrap": "^1.2.4",
     "jquery": "^2.2.1",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "ionic-filter-bar": "^1.1.1",
+    "angulargrid": "^0.5.3"
   }
 }

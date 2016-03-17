@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.tpls']).run(function($ionicPlatform) {
+angular.module('starter', ['ionic', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.tpls', 'jett.ionic.filter.bar', 'angularGrid']).run(function($ionicPlatform) {
   return $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -10,7 +10,7 @@ angular.module('starter', ['ionic', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.
   });
 });
 
-angular.module('starter').directive('galleryList', function($timeout, $filter) {
+angular.module('starter').directive('galleryList', function($timeout, $filter, angularGridInstance) {
   return {
     templateUrl: 'app/shared/list/list.html',
     restrict: 'E',
@@ -166,7 +166,7 @@ angular.module('starter').directive('galleryList', function($timeout, $filter) {
         tmpTotalItems = $scope.totalItems;
         return prepareDispalyFiles();
       });
-      return $scope.filterChanged = function() {
+      $scope.filterChanged = function() {
         $scope.setPage(1);
         $scope.filter.item.type = parseInt($scope.filter.item.typeItems);
         if (!isFilteringMode()) {
@@ -174,9 +174,27 @@ angular.module('starter').directive('galleryList', function($timeout, $filter) {
         } else {
           $scope.maxSize = 0;
         }
-        return $scope.pageChanged();
+        $scope.pageChanged();
+        return $scope.refresh();
       };
-    }
+      $scope.refresh = (function(_this) {
+        return function() {
+          return $timeout(function() {
+            return $timeout(function() {
+              return angularGridInstance.gallery.refresh();
+            }, 1000);
+          }, 0);
+        };
+      })(this);
+      return $scope.$watchCollection('files', (function(_this) {
+        return function(newV, oldV) {
+          return $scope.refresh();
+        };
+      })(this));
+    },
+    controller: (function(_this) {
+      return function($scope) {};
+    })(this)
   };
 });
 
@@ -201,13 +219,28 @@ angular.module('starter').filter('galleryFilter', (function(_this) {
 })(this));
 
 angular.module('starter').config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider.state('gallery', {
-    url: '/gallery',
-    templateUrl: 'app/components/gallery/gallery.html',
-    controller: 'GalleryController'
+  $stateProvider.state('app', {
+    url: '/app',
+    abstract: true,
+    templateUrl: 'app/shared/sidemenu/sidemenu.html',
+    controller: 'AppCtrl'
   });
-  return $urlRouterProvider.otherwise('/gallery');
-}).controller('GalleryController', function($scope, $q, galleryFactory) {
+  return $urlRouterProvider.otherwise('/app/gallery');
+}).controller('AppCtrl', function($scope, $q, galleryFactory, $ionicPlatform) {
+  return console.log($ionicPlatform.is('Web'));
+});
+
+angular.module('starter').config(function($stateProvider, $urlRouterProvider) {
+  return $stateProvider.state('app.gallery', {
+    url: '/gallery',
+    views: {
+      'menuContent': {
+        templateUrl: 'app/components/gallery/gallery.html',
+        controller: 'GalleryController'
+      }
+    }
+  });
+}).controller('GalleryController', function($scope, $q, galleryFactory, $ionicFilterBar) {
   var counterJSONid, getElements;
   $scope.totalItems = 0;
   counterJSONid = 1;

@@ -1,14 +1,18 @@
 angular.module('starter')
 
 .config ($stateProvider,$urlRouterProvider) ->
-   $stateProvider.state 'gallery',
+   $stateProvider.state 'app.gallery',
         url: '/gallery'
-        templateUrl: 'app/components/gallery/gallery.html'
-        controller: 'GalleryController'
-    $urlRouterProvider.otherwise '/gallery'
+        views:
+            'menuContent':
+                templateUrl: 'app/components/gallery/gallery.html'
+                controller: 'GalleryController'
         
 .controller 'GalleryController', 
-    ($scope,$q,galleryFactory) ->        
+    ($scope,$q,galleryFactory,$ionicFilterBar) ->        
+    
+        # $ionicFilterBar.show()
+    
     
         $scope.totalItems = 0        
         counterJSONid =1         

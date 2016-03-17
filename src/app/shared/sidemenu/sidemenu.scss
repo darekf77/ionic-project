@@ -1,0 +1,43 @@
+.button-side-menu {
+    color: white;
+    background: transparent;   
+    border: none;
+    > a {
+        background: transparent !important;
+    }
+    img {
+        display: inline-block;
+        position: relative;
+        top: 3px;
+        margin-right: 10px;
+    }
+    span.badge  {
+        background: transparent;
+        border: 1px solid #687599;
+        border-radius: 4px;
+        color: #00b5f9;
+        font-weight: normal;
+    }
+}
+
+.header-side-menu {
+    div {
+        width: 100%;
+        text-align: center;
+        img {
+            padding: 10px;
+            display: inline-block;
+        }
+    }
+    // position: relative;
+    background: transparent;
+    color: white;
+    border: none;
+}
+
+
+.items-side-menu {
+    // position: relative
+    margin-top: 10px;    
+}
+

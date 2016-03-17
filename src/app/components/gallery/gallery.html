@@ -1,9 +1,23 @@
-<ion-pane>
-<ion-header-bar class="bar-stable">
-<h1 class="title">Galeria</h1>
-</ion-header-bar>
-<ion-content class="has-header">
-    {{dupa}}
+<ion-view view-title="Gallery">
+<!--<ion-header-bar class="bar-positive" id="gallery-search-header">
+    <div class="buttons">
+        <div class="list list-inset" id="gallery-search-bar" >
+            <label class="item item-input gallery-search-input" >
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search">
+            </label>
+            <label class="item item-input item-select gallery-profile-bar">
+                <div class="input-label">
+                    <img src="assets/img/alert.png" alt="">
+                </div>
+                <select>
+                <option selected>User name</option>
+                </select>
+            </label>
+        </div>
+    </div>      
+  </ion-header-bar>-->
+  <ion-content class="padding">
     <gallery-list 
         ng-model="model"
         event-handler="eventHandler"
@@ -11,4 +25,4 @@
         >        
     </gallery-list>
 </ion-content>
-</ion-pane>
+</ion-view>

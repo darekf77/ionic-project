@@ -1,0 +1,30 @@
+#gallery-search-header {
+    background: transparent;
+    border: none;
+    .item-input {
+        border: none;
+    }
+    .buttons {
+        width: 100%;
+    }
+}
+
+#gallery-search-bar {    
+    width: 100%;
+    margin: 0px;
+    .gallery-search-input {        
+        border: none;
+        position: relative;
+        float: left;
+    }
+}
+
+
+.gallery-profile-bar {
+    width: 250px;
+    position: absolute;
+    right: 0px;
+    img {
+        float: right;
+    }
+}

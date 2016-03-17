@@ -9715,17 +9715,39 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+body {
+  font-family: 'Open Sans light', sans-serif !important; }
+
+#gallery-search-header {
+  background: transparent;
+  border: none; }
+  #gallery-search-header .item-input {
+    border: none; }
+  #gallery-search-header .buttons {
+    width: 100%; }
+
+#gallery-search-bar {
+  width: 100%;
+  margin: 0px; }
+  #gallery-search-bar .gallery-search-input {
+    border: none;
+    position: relative;
+    float: left; }
+
+.gallery-profile-bar {
+  width: 250px;
+  position: absolute;
+  right: 0px; }
+  .gallery-profile-bar img {
+    float: right; }
+
+.gallery-select-filtr-header {
+  border: none; }
 
 .flex-container {
   padding: 0;
   margin: 0;
   list-style: none;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row wrap;
   justify-content: space-around; }
 
 .gallery-list-pagination {
@@ -9733,30 +9755,121 @@ a.button {
   .gallery-list-pagination .pagination-sm {
     display: inline-block; }
 
-.shine {
-  opacity: 0.5 !important; }
+.gallery-actions-bar {
+  border: none;
+  border-bottom: 1px solid #f3f3f3; }
+  .gallery-actions-bar img {
+    width: 20px;
+    height: 20px;
+    margin: 2px; }
 
-.flex-item {
-  padding: 5px;
-  min-width: 100px;
-  height: 150px;
-  margin-top: 10px;
-  flex-grow: 1;
-  line-height: 150px;
-  color: white;
-  font-weight: bold;
-  font-size: 3em;
+.gallery-pagination {
   text-align: center; }
-  .flex-item span {
+  .gallery-pagination .pagination-sm li {
+    font-size: 1em; }
+    .gallery-pagination .pagination-sm li a {
+      color: black;
+      border: none; }
+  .gallery-pagination .pagination-sm .active a {
+    color: white;
+    background: lightgray !important; }
+
+.button-side-menu {
+  color: white;
+  background: transparent;
+  border: none; }
+  .button-side-menu > a {
+    background: transparent !important; }
+  .button-side-menu img {
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    margin-right: 10px; }
+  .button-side-menu span.badge {
+    background: transparent;
+    border: 1px solid #687599;
+    border-radius: 4px;
+    color: #00b5f9;
+    font-weight: normal; }
+
+.header-side-menu {
+  background: transparent;
+  color: white;
+  border: none; }
+  .header-side-menu div {
+    width: 100%;
+    text-align: center; }
+    .header-side-menu div img {
+      padding: 10px;
+      display: inline-block; }
+
+.items-side-menu {
+  margin-top: 10px; }
+
+.shine {
+  background: #f9f9f9;
+  border: 1px solid #cccccc; }
+  .shine .gallery-list-item-mark {
+    display: block !important; }
+  .shine .galery-image-mask {
+    opacity: 0.5 !important; }
+
+.grid.ng-enter {
+  opacity: 0; }
+
+.grid.ng-enter.ng-enter-active {
+  opacity: 1; }
+
+.grid {
+  list-style: none;
+  background: #ffffff;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out; }
+
+.gallery-list-item {
+  width: 170px;
+  margin: 1%;
+  padding: 10px;
+  height: 185px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  float: left; }
+  .gallery-list-item .galery-image-mask {
+    background: black;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9; }
+  .gallery-list-item .gallery-list-item-mark {
+    background: url("assets/img/mark.png") no-repeat;
+    width: 50px;
+    height: 50px;
+    right: 0px;
+    margin-top: 10px;
+    display: none;
+    z-index: 10; }
+  .gallery-list-item span {
     position: absolute;
     color: greenyellow;
     font-size: 25px; }
-  .flex-item strong {
+  .gallery-list-item strong {
     position: absolute;
     color: red;
     margin-top: 40px;
     font-size: 15px; }
-  .flex-item img {
-    height: 100%;
-    width: auto;
-    display: inline-block; }
+  .gallery-list-item .gallery-item-image {
+    overflow: hidden;
+    height: 74%;
+    text-align: center;
+    background: #CECECE; }
+    .gallery-list-item .gallery-item-image img {
+      height: auto;
+      width: 100%;
+      margin-top: -120%;
+      z-index: 8; }
+    .gallery-list-item .gallery-item-image .gallery-item-description {
+      overflow: hidden;
+      height: 15%; }

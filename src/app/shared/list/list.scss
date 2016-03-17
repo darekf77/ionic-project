@@ -1,18 +1,11 @@
-.gallery-list-files {
-    
+.gallery-select-filtr-header {
+    border: none;
 }
 .flex-container {
   padding: 0;
   margin: 0;
   list-style: none;
   
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  
-  -webkit-flex-flow: row wrap;
   justify-content: space-around;
 }
 
@@ -23,4 +16,33 @@
         display: inline-block;
     }
     
+}
+
+.gallery-actions-bar {
+    border: none;
+    border-bottom: 1px solid #f3f3f3;
+    img {
+        width: 20px;
+        height: 20px;
+        margin: 2px;
+    }
+}
+
+.gallery-pagination {
+    text-align: center;
+    .pagination-sm {
+        li {
+            a {
+                color: black;
+                border: none;
+            }            
+            font-size: 1em;
+        }
+        .active {
+            a {
+                color: white;
+                background: lightgray !important;    
+            }            
+        }
+    }    
 }

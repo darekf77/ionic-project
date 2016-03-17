@@ -39,11 +39,6 @@ gulp.task('sass', function(done) {
   gulp.src(paths.sass)
     .pipe(sass())
     .on('error', sass.logError)
-    // .pipe(gulp.dest('./www/css/'))
-    // .pipe(minifyCss({
-    //   keepSpecialComments: 0
-    // }))
-    // .pipe(rename({ extname: '.min.css' }))
     .pipe(concat('index.css'))
     .pipe(gulp.dest(out_dir))
     .on('end', done);

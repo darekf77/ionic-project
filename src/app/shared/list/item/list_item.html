@@ -1,10 +1,17 @@
-<div class="flex-item {{thread}}" ng-mouseover="hover()" ng-mouseleave="leave()" >    
-    <span>id:{{id}}</span>
-    <strong>thread:{{thread}}</strong>
-    <img ng-show="type == 0" class="img-responsive" ng-src="{{url}}">
-    <div class="img-responsive " ng-show="type == 1">
-        <img  class="gallery-item-file-data" style="width: 50px"
-        src="assets/img/file.png">    
-    </div>
+<div class="gallery-list-item grid grid-img {{thread}}" 
+    ng-mouseover="hover()" ng-mouseleave="leave()"
+ >    
+    <span class="gallery-list-item-mark"></span>
+        <!--<span>id:{{id}}</span>
+        <strong>thread:{{thread}}</strong>-->
+        <div class="img-responsive gallery-item-image" >
+            <div class="galery-image-mask"></div>
+            <img  ng-show="type == 0"  ng-src="{{url}}">
+            <img ng-show="type == 1" class="gallery-item-file" src="assets/img/file.png">   
+        </div>    
+        <div class="gallery-item-description">
+            Id: {{id}} <br>
+            Thread: {{thread}}
+        </div>
     
 </div>

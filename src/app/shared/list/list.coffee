@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.directive 'galleryList', ($timeout,$filter) ->
+.directive 'galleryList', ($timeout,$filter,angularGridInstance) ->
     templateUrl:'app/shared/list/list.html'
     restrict:'E'
     scope:
@@ -8,6 +8,7 @@ angular.module('starter')
         eventHandler:"="
         totalItems:"="
     link: ($scope,elem,attr,model) ->
+    
         $scope.files = [];
         allFiles = []
     
@@ -120,5 +121,24 @@ angular.module('starter')
             if !isFilteringMode() then $scope.maxSize = defaultMaxSize
             else $scope.maxSize = 0 
             $scope.pageChanged()
+            $scope.refresh()
             
+        $scope.refresh = =>
+            $timeout( =>
+                $timeout( =>
+                    angularGridInstance.gallery.refresh();
+                ,1000)    
+            ,0)
+        
+        $scope.$watchCollection 'files', (newV,oldV) =>
+            $scope.refresh();
+            
+        
+        
+    controller: ($scope) =>
+        
+        
+        
+            
+    
             

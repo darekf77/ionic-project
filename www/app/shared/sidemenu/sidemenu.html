@@ -1,0 +1,32 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-light" >
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left" style="background: #444c63">
+    <ion-header-bar class="header-side-menu"  >
+        <div>
+            <img src="assets/img/dropbox.png" alt="">      
+        </div>      
+    </ion-header-bar>
+    <ion-content class="items-side-menu">
+      <ion-list>
+        <ion-item class="button-side-menu" menu-close href="#/tab/gallery">
+             <img src="assets/img/icon_photo.png" class="icon ion-loading-c" />
+          Gallery
+           <!--<span class="badge badge-assertive">0</span>-->
+        </ion-item>        
+        
+      </ion-list>      
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

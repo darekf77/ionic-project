@@ -1,38 +1,6 @@
 <div class="gallery-list-filters">
-    <div class="col list">
-        <label class="item item-input item-select">
-    <div class="input-label">
-        Filtr plików
-        </div>
-        <select ng-model="filter.item.typeItems"  ng-show="totalItems > 0"
-            ng-change="filterChanged()"
-            ng-disabled="totalItems == 0">
-            <option value="0">Obrazy</option>
-            <option value="1">Dokumenty</option>
-            <option value="2">Wyszystkie pliki</option>
-        </select>
-    </label>
-    </div>    
-</div>
-
-<div class="gallery-list-files" >
-    <div class="col flex-container" ng-show="totalItems > 0"
-        >
-        <gallery-list-item 
-            ng-repeat="file in files"
-            item-url="{{file.url}}"
-            item-type="file.type"
-            item-id="{{file.id}}"
-            item-thread="file.thread"
-            filter="filter"
-        >
-        </gallery-list-item>
-    </div>
-</div>
-
-<div class="row gallery-list-pagination">
-    <div class="col" >
-        <div ng-show="totalItems > 0">
+    <div class="col list">       
+        <div ng-show="totalItems > 0" class="gallery-pagination" >
             <uib-pagination 
             total-items="totalItems" 
             ng-model="currentPage"
@@ -47,7 +15,45 @@
         <div ng-show="totalItems === 0">
             Brak plików
             <br>
-        </div>
-    </div>
-    
+        </div>        
+        
+        <label class="item item-input item-select gallery-select-filtr-header">
+            <div class="input-label">
+            Filtr plików
+            </div>
+            <select ng-model="filter.item.typeItems"  ng-show="totalItems > 0"
+                ng-change="filterChanged()"
+                ng-disabled="totalItems == 0">
+                <option value="0">Obrazy</option>
+                <option value="1">Dokumenty</option>
+                <option value="2">Wyszystkie pliki</option>
+            </select>
+        </label>
+    </div>    
 </div>
+
+<div class="gallery-list-files" >
+    <!--<div class="row list" style="margin:0px">
+        <div class="col gallery-actions-bar item">
+            <img src="assets/img/action_delete.png"  alt="">
+            <img src="assets/img/action_upload.png" alt="">
+            <img src="assets/img/action_newfolder.png" alt="">
+            <img src="assets/img/action_share.png" alt="">
+        </div>
+    </div>-->
+    <ul class="dynamic-grid" angular-grid="files" grid-width="150"
+     ag-id="gallery" ag-refresh-on-img-load="true" >
+        <!--<li data-ng-repeat="file in files" class="grid">
+            <img src="{{file.url}}" class="grid-img" />
+        </li>-->
+        <gallery-list-item 
+            ng-repeat="file in files"
+            item-url="{{file.url}}"
+            item-type="file.type"
+            item-id="{{file.id}}"
+            item-thread="file.thread"
+            filter="filter"
+        >
+    </ul>  
+
+    

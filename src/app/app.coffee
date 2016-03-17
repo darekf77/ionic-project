@@ -5,7 +5,11 @@ angular.module('starter',
     'ngResource'
     'ui.bootstrap'
     'ui.bootstrap.tpls'
+    'jett.ionic.filter.bar'
+    'angularGrid'
 ])
+
+
 .run ($ionicPlatform) ->
   $ionicPlatform.ready ->
     if window.cordova and window.cordova.plugins.Keyboard
