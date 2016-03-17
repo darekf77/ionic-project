@@ -8,3 +8,5 @@ $ npm install
 $ bower install 
 $ ionic serve
 ```
+
+![Screen](screen.png)
