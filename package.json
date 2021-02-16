@@ -15,7 +15,8 @@
       "nodts": false,
       "obscure": false,
       "ugly": false
-    }
+    },
+    "description": "An Ionic project"
   },
   "name": "ionic-project",
   "version": "1.1.1",
