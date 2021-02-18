@@ -1,4 +1,5 @@
 {
+  "type": "ionic-client",
   "resources": [],
   "overrided": {
     "linkedFolders": [],
@@ -15,5 +16,6 @@
     "obscure": false,
     "ugly": false
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "private": true
 }
