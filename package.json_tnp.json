@@ -1,6 +1,6 @@
 {
-  "type": "ionic-client",
   "resources": [],
+  "type": "ionic-client",
   "overrided": {
     "linkedFolders": [],
     "ignoreDepsPattern": [
@@ -17,5 +17,6 @@
     "ugly": false
   },
   "description": "An Ionic project",
-  "private": true
+  "private": true,
+  "license": "MIT"
 }
