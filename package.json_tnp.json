@@ -18,5 +18,6 @@
   },
   "description": "An Ionic project",
   "private": true,
-  "license": "MIT"
+  "license": "MIT",
+  "workerPlugins": {}
 }
