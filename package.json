@@ -267,5 +267,8 @@
   },
   "devDependencies": {},
   "private": true,
-  "license": "MIT"
+  "license": "MIT",
+  "recreatedFrom": {
+    "tnp.json": true
+  }
 }
