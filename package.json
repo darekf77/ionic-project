@@ -20,7 +20,8 @@
     "description": "An Ionic project",
     "private": true,
     "license": "MIT",
-    "workerPlugins": {}
+    "workerPlugins": {},
+    "linkedRepos": []
   },
   "name": "ionic-project",
   "version": "1.1.1",
@@ -267,8 +268,5 @@
   },
   "devDependencies": {},
   "private": true,
-  "license": "MIT",
-  "recreatedFrom": {
-    "tnp.json": true
-  }
+  "license": "MIT"
 }
