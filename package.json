@@ -21,7 +21,9 @@
     "private": true,
     "license": "MIT",
     "workerPlugins": {},
-    "linkedRepos": []
+    "linkedRepos": [],
+    "smartContainerTarget": "",
+    "smartContainerBuildTarget": ""
   },
   "name": "ionic-project",
   "version": "1.1.1",
