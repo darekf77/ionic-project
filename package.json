@@ -1,31 +1,4 @@
 {
-  "tnp": {
-    "resources": [],
-    "overrided": {
-      "linkedFolders": [],
-      "ignoreDepsPattern": [
-        "*"
-      ],
-      "includeAsDev": [],
-      "includeOnly": [],
-      "dependencies": {},
-      "npmFixes": []
-    },
-    "linkedProjects": [],
-    "smartContainerBuildTarget": "",
-    "linkedRepos": [],
-    "libReleaseOptions": {
-      "nodts": false,
-      "obscure": false,
-      "ugly": false,
-      "includeNodeModules": false
-    },
-    "type": "ionic-client",
-    "description": "An Ionic project",
-    "private": true,
-    "license": "MIT",
-    "workerPlugins": {}
-  },
   "dependencies": {},
   "devDependencies": {},
   "description": "An Ionic project",
