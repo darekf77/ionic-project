@@ -1,4 +1,7 @@
 {
+  "tnp": {
+    "resources": []
+  },
   "dependencies": {},
   "devDependencies": {},
   "description": "An Ionic project",
